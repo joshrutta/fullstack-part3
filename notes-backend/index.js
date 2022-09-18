@@ -1,7 +1,10 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
+app.use(express.static('build'));
 
 let notes = [
     {
@@ -35,7 +38,6 @@ app.get('/api/notes', (request, response) => {
 app.get('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id)
     const note = notes.filter(note => note.id === id)
-    console.log("note: ", note)
     if (note.length) {
         response.json(note)
     } else {
@@ -60,7 +62,7 @@ const generateId = () => {
 app.post('/api/notes', (request, response) => {
     const body = request.body
 
-    if (!body.conttent) {
+    if (!body.content) {
         return response.status(400).json({
             error: 'content missing'
         })
@@ -77,7 +79,7 @@ app.post('/api/notes', (request, response) => {
     response.json(note)
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
