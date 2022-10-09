@@ -1,1 +1,2 @@
-GET http://localhost:3001/api/notes
+# GET http://localhost:3001/api/notes
+GET https://fullstack-notes-app.fly.dev/api/notes

@@ -1,0 +1,9 @@
+PUT http://localhost:3001/api/notes/
+Content-Type: application/json
+
+{
+    "content": "testing new db note",
+    "date": "2022-09-22T03:33:08.166Z",
+    "important": true,
+    "id": "632bd77401fae2116324cc8b"
+  }

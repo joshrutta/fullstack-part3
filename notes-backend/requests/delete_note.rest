@@ -1,0 +1,5 @@
+DELETE http://localhost:3001/api/notes/632bdce1a6b6ad18e03e4bde
+
+###
+
+DELETE https://fullstack-notes-app.fly.dev/api/notes/632bd77401fae2116324cc8b

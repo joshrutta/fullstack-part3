@@ -1,4 +1,5 @@
-POST http://localhost:3001/api/notes
+POST https://fullstack-notes-app.fly.dev/api/notes
+# POST https://localhost:3001/api/notes
 Content-Type: application/json
 
 {
