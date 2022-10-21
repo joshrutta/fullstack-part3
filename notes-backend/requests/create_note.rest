@@ -13,6 +13,6 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "",
+    "content": "note content should be good",
     "important": false
 }

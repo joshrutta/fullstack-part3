@@ -9,8 +9,15 @@ const password = process.argv[2]
 
 const url = `mongodb+srv://jrutta:${password}@cluster0.cedb4py.mongodb.net/noteApp?retryWrites=true&w=majority`
 const noteSchema = new mongoose.Schema({
-    content: String,
-    date: Date,
+    content: {
+        type: String,
+        minLength: 5,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
     important: Boolean,
 })
 
