@@ -9,7 +9,7 @@ const Note = require('../models/note')
 beforeEach(async () => {
     await Note.deleteMany({})
     await Note.insertMany(helper.initialNotes)
-})
+}, 20000)
 
 describe('when there is initially some notes saved', () => {
     test('notes are returned as json', async () => {
