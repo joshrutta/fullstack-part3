@@ -14,5 +14,17 @@ Content-Type: application/json
 
 {
     "content": "note content should be good",
-    "important": false
+    "important": false,
+    "userId": "6367ee640c4ce26da03bca35"
+}
+
+###
+
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "2nd note w user",
+    "important": true,
+    "userId": "6367ee640c4ce26da03bca35"
 }
