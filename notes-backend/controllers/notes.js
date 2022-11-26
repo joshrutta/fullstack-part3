@@ -28,12 +28,12 @@ notesRouter.get('/:id', async (request, response) => {
 notesRouter.post('/', async (request, response) => {
     const body = request.body
     const token = getTokenFrom(request)
-    const decoodedToken = jwt.verify(token, process.env.SECRET)
-    if (!decoodedToken.id) {
-        return response.status(401).jsono({ erro: 'token missing or invalid' })
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    const user = await User.findById(decoodedToken.id)
+    const user = await User.findById(decodedToken.id)
 
     const note = new Note({
         content: body.content,

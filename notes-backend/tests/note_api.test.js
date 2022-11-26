@@ -5,10 +5,67 @@ const app = require('../app')
 const api = supertest(app)
 
 const Note = require('../models/note')
+const User = require('../models/user')
+
+var user1Info
+var user2Info
+
+const userSetUp = async (userName, name, password) => {
+    var userId
+    var authToken
+    const newUser = {
+        username: userName,
+        name: name,
+        password: password
+    }
+    await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(201)
+        .then((res) => {
+            userId = res.body.id
+        })
+
+    await api
+        .post('/api/login')
+        .send({
+            username: newUser.username,
+            password: newUser.password
+        })
+        .expect(200)
+        .then((res) => {
+            authToken = res.body.token
+        })
+    return { userId, authToken }
+}
+
+// user setup so we can get an authentication token
+beforeAll(async () => {
+    await User.deleteMany({})
+    user1Info = await userSetUp('test_user', 'test_user', 'test_pass')
+    user2Info = await userSetUp('test_user2', 'test_user2', 'test_pass2')
+})
+
+// user teardown
+afterAll(async () => {
+    await api
+        .delete(`/api/users/${user1Info.userId}`)
+        .expect(204)
+
+    await api
+        .delete(`/api/users/${user2Info.userId}`)
+        .expect(204)
+})
 
 beforeEach(async () => {
     await Note.deleteMany({})
-    await Note.insertMany(helper.initialNotes)
+    const noteObjectsWithUser = helper.initialNotes.map(note => {
+        note.user = mongoose.Types.ObjectId(user1Info.userId)
+        return note
+    })
+    const noteObjects = noteObjectsWithUser.map(note => new Note(note))
+    const promiseArray = noteObjects.map(note => note.save())
+    await Promise.all(promiseArray)
 }, 20000)
 
 describe('when there is initially some notes saved', () => {
@@ -80,6 +137,7 @@ describe('addition of a new note', () => {
 
         await api
             .post('/api/notes')
+            .auth(user1Info.authToken, { type: 'bearer' })
             .send(newNote)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -100,6 +158,7 @@ describe('addition of a new note', () => {
 
         await api
             .post('/api/notes')
+            .auth(user1Info.authToken, { type: 'bearer' })
             .send(newNote)
             .expect(400)
 
