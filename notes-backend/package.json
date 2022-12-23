@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
+    "dev": "NODE_ENV=test nodemon index.js",
     "build:ui": "rm -rf build && cd ../../../part2/notes/ && npm run build && cp -r build ../../part3/fullstack-part3/notes-backend",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "fly logs",
     "test": "NODE_ENV=test jest --verbose --runInBand --forceExit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "author": "Matti Luukainen",
   "license": "MIT",
@@ -25,6 +26,8 @@
     "mongoose": "^6.6.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
     "eslint": "^8.26.0",
     "jest": "^29.2.1",
     "nodemon": "^2.0.19",
